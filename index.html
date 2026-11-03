@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f4f1e9">
+<meta name="description" content="A calm, pastel DSA in C++ learning checklist with saved progress.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>DSA in C++ — Learning Checklist</title>
+<style>
+  :root {
+    --paper: #fffdf7;
+    --ink: #39434a;
+    --muted: #7b858a;
+    --line: #e9e4d9;
+    --pink: #f8e2e4;
+    --yellow: #fff1c9;
+    --blue: #e2eef8;
+    --green: #e3f0e5;
+    --lavender: #eee8f7;
+    --peach: #f9e8d9;
+    --accent: #789b91;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 28px 16px 50px;
+    color: var(--ink);
+    background: #f4f1e9;
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .page { max-width: 900px; margin: 0 auto; }
+  header {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 28px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 14px rgba(75,65,45,.04);
+    position: relative;
+    overflow: hidden;
+  }
+  header:after {
+    content: ""; position: absolute; width: 120px; height: 120px;
+    right: -34px; top: -45px; border-radius: 50%; background: var(--yellow);
+    opacity: .65;
+  }
+  h1 { margin: 0 0 5px; font-size: clamp(24px, 4vw, 34px); letter-spacing: -.7px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .progress-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .progress-track { flex:1; min-width:160px; height:9px; background:#eeeae1; border-radius:20px; overflow:hidden; }
+  .progress-fill { height:100%; width:0%; background:#91b4a5; border-radius:20px; transition:width .2s; }
+  #progressText { font-size:13px; color:var(--muted); min-width:105px; text-align:right; }
+  .toolbar { display:flex; justify-content:space-between; gap:10px; margin: 14px 2px 16px; flex-wrap:wrap; }
+  button {
+    border:1px solid #ded9ce; background:var(--paper); color:var(--ink);
+    border-radius:10px; padding:8px 12px; cursor:pointer; font-size:13px;
+  }
+  button:hover { background:#f8f5ed; }
+  .hint { color:var(--muted); font-size:12px; align-self:center; }
+  .section {
+    background:var(--paper); border:1px solid var(--line); border-radius:15px;
+    margin: 10px 0; overflow:hidden; box-shadow:0 2px 8px rgba(75,65,45,.025);
+  }
+  .section summary {
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px;
+    padding:15px 17px; font-weight:650; user-select:none;
+  }
+  .section summary::-webkit-details-marker { display:none; }
+  .section summary:before {
+    content:"＋"; color:#788780; font-weight:400; font-size:17px; width:18px;
+  }
+  .section[open] summary:before { content:"−"; }
+  .section summary:hover { filter:brightness(.985); }
+  .section:nth-of-type(1) summary { background:var(--yellow); }
+  .section:nth-of-type(2) summary { background:var(--blue); }
+  .section:nth-of-type(3) summary { background:var(--pink); }
+  .section:nth-of-type(4) summary { background:var(--green); }
+  .section:nth-of-type(5) summary { background:var(--lavender); }
+  .section:nth-of-type(6) summary { background:var(--peach); }
+  .section:nth-of-type(7) summary { background:#e5eff0; }
+  .section:nth-of-type(8) summary { background:#f4e8dc; }
+  .section:nth-of-type(9) summary { background:#e9e9f5; }
+  .section:nth-of-type(10) summary { background:#e7f0e5; }
+  .section:nth-of-type(11) summary { background:#f8e8ed; }
+  .section:nth-of-type(12) summary { background:#e5edf7; }
+  .section:nth-of-type(13) summary { background:#f7efd9; }
+  .section:nth-of-type(14) summary { background:#e9f1ee; }
+  .section:nth-of-type(15) summary { background:#f1e9f5; }
+  .section-name { flex:1; }
+  .count { color:#69757a; font-size:12px; font-weight:500; white-space:nowrap; }
+  .content { padding:15px 20px 18px; }
+  .group { margin: 2px 0 17px; }
+  .group:last-child { margin-bottom:0; }
+  h3 { margin:0 0 8px; font-size:14px; color:#687a73; }
+  label.task {
+    display:flex; align-items:flex-start; gap:10px; padding:5px 3px;
+    font-size:14px; cursor:pointer; border-radius:6px;
+  }
+  label.task:hover { background:#faf8f2; }
+  input[type=checkbox] {
+    accent-color:#83a99a; width:16px; height:16px; margin:2px 0 0; flex-shrink:0;
+  }
+  label.task.done span { color:#9aa19e; text-decoration:line-through; }
+  .footer { text-align:center; color:var(--muted); font-size:12px; margin-top:22px; }
+  @media(max-width:560px) {
+    body { padding:14px 10px 35px; }
+    header { padding:21px 18px; }
+    .section summary { padding:13px 12px; }
+    .content { padding:13px 14px 16px; }
+    .count { font-size:11px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>DSA in C++</h1>
+    <p class="subtitle">A topic-by-topic learning checklist · Your progress is saved in this browser.</p>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressText">0 / 0 completed</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <span class="hint">Open a section to see its checklist. Tick topics as you complete them.</span>
+    <div>
+      <button id="expandAll">Expand all</button>
+      <button id="collapseAll">Collapse all</button>
+      <button id="reset">Reset progress</button>
+    </div>
+  </div>
+
+  <main id="checklist"></main>
+  <p class="footer">Made for steady progress. You do not need to master every advanced topic before solving problems.</p>
+</div>
+
+<script>
+const curriculum = [
+  ["Phase 0 — C++ prerequisites", [
+    ["Pointers and references", ["Pointer declaration and initialization", "Dereferencing", "Pointer arithmetic", "References and pass-by-reference"]],
+    ["Memory and language basics", ["Dynamic memory allocation with new and delete", "Stack vs heap memory", "Classes, objects, constructors and destructors", "Structs and custom data types", "Basic templates", "Recursion fundamentals"]],
+    ["STL introduction", ["vector and string", "pair", "Iterators", "Range-based loops", "Basic STL algorithms"]]
+  ]],
+  ["Phase 1 — Arrays and strings", [
+    ["Array fundamentals", ["Static and dynamic arrays", "1D, 2D and multidimensional arrays", "Memory representation and contiguous allocation", "Indexing and traversal", "Insertion, deletion, searching and updating", "Passing arrays to functions", "Array-pointer relationship"]],
+    ["C++ vectors", ["Declaration and initialization", "push_back() and pop_back()", "size() and capacity()", "resize() and reserve()", "insert() and erase()", "front(), back(), at() and operator[]", "Iterators", "2D vectors", "Passing vectors to functions", "Vectors of pairs and nested vectors"]],
+    ["Array techniques and problems", ["Linear search", "Binary search", "Two pointers", "Sliding window", "Prefix sums and suffix sums", "Difference arrays", "Kadane's algorithm", "Sorting-based problems", "Merging sorted arrays", "Frequency counting", "Subarrays and subsequences", "Matrix traversal", "Spiral matrix", "Rotation and transposition", "Binary search on answer"]],
+    ["Strings", ["Character arrays vs std::string", "String traversal, insertion and deletion", "Reversing strings", "Palindrome checking", "Anagrams", "Frequency arrays", "Substrings vs subsequences", "Basic string matching", "getline() and STL string functions", "Later: KMP, Rabin-Karp, Z algorithm and Manacher's algorithm"]]
+  ]],
+  ["Phase 2 — Linked lists", [
+    ["Singly linked list", ["Node structure: data and next pointer", "Head and tail pointers", "Creating and traversing a list", "Searching for an element", "Insertion at beginning and end", "Insertion at a position / before or after a node", "Deletion from beginning and end", "Deletion by value or position", "Counting nodes", "Reversing a linked list", "Finding the middle node", "Nth node from the end"]],
+    ["Doubly linked list", ["Previous and next pointers", "Forward and backward traversal", "Insertion at different positions", "Deletion at different positions", "Reversal"]],
+    ["Circular linked lists", ["Circular singly linked list", "Circular doubly linked list", "Insertion and deletion", "Traversal and termination conditions"]],
+    ["Important linked-list problems", ["Floyd's cycle detection", "Finding the starting node of a cycle", "Removing a cycle", "Merging two sorted lists", "Removing duplicates", "Intersection of two linked lists", "Reversing nodes in groups of K", "Palindrome linked list", "Flattening a multilevel linked list", "Copying a list with random pointers"]],
+    ["C++ STL", ["std::list", "std::forward_list"]]
+  ]],
+  ["Phase 3 — Stacks and queues", [
+    ["Stack", ["LIFO principle", "Implement stack using arrays", "Implement stack using linked lists", "push, pop, peek/top", "isEmpty and isFull", "Overflow and underflow", "Balanced parentheses", "Infix, postfix and prefix expressions", "Infix-to-postfix conversion", "Postfix evaluation", "Reversing strings", "Next greater/smaller element", "Previous greater/smaller element", "Stock span problem", "Largest rectangle in histogram", "Min stack", "Monotonic stack", "STL stack"]],
+    ["Queue", ["FIFO principle", "Implement queue using arrays", "Implement queue using linked lists", "Enqueue and dequeue", "Front and rear", "Overflow and underflow"]],
+    ["Queue variants", ["Simple queue", "Circular queue", "Deque", "Input-restricted deque", "Output-restricted deque", "Priority queue"]],
+    ["Queue problems and STL", ["Queue using stacks", "Stack using queues", "Reverse a queue", "First non-repeating character in a stream", "Sliding window maximum", "Generate binary numbers using a queue", "Circular tour / gas station problem", "STL queue, deque and priority_queue"]]
+  ]],
+  ["Phase 4 — Hashing", [
+    ["Hash-table fundamentals", ["Hash functions", "Hash tables and key-value mapping", "Hash collisions", "Separate chaining", "Open addressing", "Linear probing", "Quadratic probing", "Double hashing", "Load factor", "Rehashing", "Average vs worst-case complexity"]],
+    ["C++ STL containers", ["unordered_map", "unordered_set", "map", "set", "multimap", "multiset", "Ordered vs unordered containers"]],
+    ["Hashing problems", ["Frequency counting", "Two Sum", "Group Anagrams", "Longest consecutive sequence", "Subarray sum equals K", "Detecting duplicates", "Pair sum problems", "Longest substring without repeating characters"]]
+  ]],
+  ["Phase 5 — Recursion and backtracking", [
+    ["Recursion", ["Base cases", "Recursive calls", "Recursion tree", "Call stack", "Recursion depth", "Tail recursion", "Multiple recursive calls", "Time and space complexity of recursion", "Recurrence relations"]],
+    ["Backtracking fundamentals", ["Choose, explore and undo", "State-space tree", "Pruning", "Constraint checking"]],
+    ["Problems", ["Factorial and Fibonacci", "Sum of array elements", "Reverse a string recursively", "Generate subsets", "Generate permutations", "Generate combinations", "N-Queens", "Rat in a maze", "Sudoku solver", "Combination Sum", "Word search"]]
+  ]],
+  ["Phase 6 — Trees", [
+    ["Tree fundamentals", ["Root, parent, child and siblings", "Leaf and internal nodes", "Ancestors and descendants", "Subtree", "Edge and path", "Depth and height", "Degree and level", "Balanced and skewed trees"]],
+    ["Types of trees", ["General tree", "Binary tree", "Full binary tree", "Complete binary tree", "Perfect binary tree", "Balanced binary tree", "Skewed binary tree"]],
+    ["Binary-tree implementation and operations", ["Node structure and tree creation", "Insertion and deletion", "Searching", "Counting nodes and leaf nodes", "Finding height and depth", "Finding minimum and maximum", "Checking identical trees", "Checking symmetry", "Checking balance"]],
+    ["Tree traversals", ["Preorder: Root, Left, Right", "Inorder: Left, Root, Right", "Postorder: Left, Right, Root", "Level-order traversal", "Recursive traversals", "Iterative traversals using stacks", "Level order using queues", "Zigzag traversal", "Boundary traversal", "Vertical order traversal", "Top view and bottom view", "Diagonal traversal"]],
+    ["Binary Search Trees", ["BST properties", "Insertion and searching", "Deletion: leaf, one child and two children", "Minimum and maximum", "Inorder traversal of BST", "Predecessor and successor", "Lowest common ancestor", "Validate BST", "Kth smallest and largest", "Construct BST from traversals", "Recover swapped BST"]],
+    ["Advanced trees", ["AVL trees", "LL, RR, LR and RL rotations", "Red-Black trees", "B-Trees and B+ Trees", "Segment trees", "Lazy propagation", "Fenwick Tree / Binary Indexed Tree", "Sparse tables", "Binary lifting", "Lowest Common Ancestor (LCA)"]]
+  ]],
+  ["Phase 7 — Heaps and priority queues", [
+    ["Heap fundamentals", ["Heap properties", "Complete binary tree relationship", "Min heap and max heap", "Array representation", "Parent and child index calculations", "Insertion", "Deletion", "Heapify", "Building a heap", "Heap sort"]],
+    ["Heap problems", ["Kth smallest/largest", "K largest/smallest elements", "Merge K sorted arrays", "Top K frequent elements", "Median from a data stream", "Two heaps technique"]],
+    ["C++ STL", ["priority_queue", "Custom comparators", "Implementing a min heap with priority_queue"]]
+  ]],
+  ["Phase 8 — Graphs", [
+    ["Graph fundamentals", ["Vertices and edges", "Directed and undirected graphs", "Weighted and unweighted graphs", "Connected and disconnected graphs", "Cyclic and acyclic graphs", "Complete, sparse and dense graphs", "Degree, indegree and outdegree", "Paths and cycles", "Self-loops and parallel edges", "DAG (Directed Acyclic Graph)"]],
+    ["Graph representation", ["Adjacency matrix", "Adjacency list", "Edge list", "Time and space complexity of representations"]],
+    ["BFS", ["Queue-based traversal", "Visited array", "Level-by-level traversal", "BFS in disconnected graphs", "Shortest path in unweighted graphs", "Multi-source BFS"]],
+    ["DFS", ["Recursive DFS", "Iterative DFS using stack", "Visited array", "DFS in disconnected graphs", "DFS tree and traversal order"]],
+    ["Cycle detection", ["Undirected graph cycle detection using DFS", "Undirected graph cycle detection using BFS", "Directed graph cycle detection", "DFS recursion stack", "Three-state visited array"]],
+    ["Topological sorting", ["Topological ordering", "Kahn's algorithm", "DFS-based topological sort", "Cycle detection using topological sorting", "Course Schedule problems", "DAG shortest paths"]],
+    ["Shortest paths", ["BFS shortest path", "Dijkstra's algorithm", "Why Dijkstra fails with negative edges", "Bellman-Ford", "Floyd-Warshall", "DAG shortest path", "0-1 BFS", "Negative cycles"]],
+    ["Minimum spanning trees", ["Spanning trees", "Minimum spanning tree", "Prim's algorithm", "Kruskal's algorithm", "DSU: union by rank", "DSU: union by size", "Path compression"]],
+    ["Advanced graph algorithms", ["Strongly Connected Components", "Kosaraju's algorithm", "Tarjan's algorithm", "Bridges", "Articulation points", "Biconnected components", "Bipartite graph detection", "Graph coloring", "Eulerian paths and circuits", "Hamiltonian paths and cycles", "Network flow", "Ford-Fulkerson", "Edmonds-Karp", "Maximum bipartite matching"]],
+    ["Other graph topics", ["DSU applications", "Multi-source shortest paths", "Shortest path with constraints", "A* search", "Paths in grids and mazes", "Word ladder problems"]]
+  ]],
+  ["Phase 9 — Tries", [
+    ["Trie fundamentals", ["Trie structure", "Trie node implementation", "Insertion of words", "Searching for words", "Prefix searching", "Checking whether a word exists", "Deletion", "Counting words with a prefix", "Autocomplete", "Word dictionary problems", "Longest common prefix", "Bitwise trie", "Maximum XOR pair"]]
+  ]],
+  ["Phase 10 — Advanced data structures", [
+    ["Structures and topics", ["Disjoint Set Union: find and union", "DSU: path compression and union by rank/size", "Segment tree: build, query and update", "Segment tree: lazy propagation", "Fenwick tree: prefix sums and updates", "Sparse table: range minimum/maximum", "Monotonic stack", "Monotonic queue", "Ordered set and order statistics", "Deque applications", "LRU cache (hash map + doubly linked list)", "LFU cache", "Suffix array and LCP", "Suffix tree"]]
+  ]],
+  ["Phase 11 — C++ STL mastery", [
+    ["Containers", ["vector", "array", "string", "list", "forward_list", "stack", "queue", "deque", "priority_queue", "set", "multiset", "map", "multimap", "unordered_set", "unordered_map", "pair and tuple"]],
+    ["STL algorithms", ["sort and stable_sort", "reverse", "binary_search", "lower_bound and upper_bound", "find and count", "min_element and max_element", "accumulate", "iota", "next_permutation and prev_permutation", "unique and remove", "merge", "rotate", "nth_element"]],
+    ["C++ techniques", ["Iterators and iterator categories", "Custom comparators", "Lambda functions", "Custom hashing", "Operator overloading for custom types", "emplace_back vs push_back", "Value vs reference semantics", "Move semantics basics", "const correctness"]]
+  ]],
+  ["Phase 12 — Sorting and searching algorithms", [
+    ["Basic sorting", ["Bubble sort", "Selection sort", "Insertion sort"]],
+    ["Efficient sorting", ["Merge sort", "Quick sort", "Heap sort", "Counting sort", "Radix sort", "Bucket sort", "Best, average and worst-case complexity", "Stable vs unstable sorting", "In-place vs out-of-place sorting"]],
+    ["Searching", ["Linear search", "Binary search", "Binary search on answer", "First and last occurrence", "Search in rotated sorted array", "Search in 2D matrix", "Search in nearly sorted array", "Ternary search", "Exponential search"]]
+  ]],
+  ["Phase 13 — Mathematics and bit manipulation", [
+    ["Mathematics", ["GCD and LCM", "Euclidean algorithm", "Prime numbers", "Sieve of Eratosthenes", "Prime factorisation", "Modular arithmetic", "Fast exponentiation", "Modular exponentiation", "Combinations and permutations", "Basic probability", "Number theory fundamentals"]],
+    ["Bit manipulation", ["Binary number representation", "AND, OR, XOR and NOT", "Left and right shifts", "Setting, clearing and toggling bits", "Checking a bit", "Counting set bits", "Brian Kernighan's algorithm", "Power-of-two checking", "Bitmasking", "Subset generation using bitmasks", "XOR-based problems"]]
+  ]],
+  ["Phase 14 — Advanced algorithmic problem solving", [
+    ["Greedy", ["Activity selection", "Interval scheduling", "Huffman coding", "Job sequencing"]],
+    ["Dynamic programming", ["Memoization", "Tabulation", "Space optimisation", "1D DP: Fibonacci, climbing stairs, house robber", "2D DP: grid paths and minimum path sum", "Knapsack: 0/1 and unbounded", "Subset sum", "LIS and LCS", "Longest common substring", "Edit distance", "Wildcard matching", "Interval DP: matrix chain multiplication and burst balloons", "Tree DP and rerooting", "Graph DP and DAG DP"]],
+    ["Other algorithmic techniques", ["Divide and conquer", "Merge-sort inversion count", "Closest pair of points", "Meet in the middle", "Bitmask DP", "Offline queries", "Coordinate compression", "Sweep line", "Two pointers", "Sliding window", "Fast and slow pointers", "Prefix and suffix techniques", "Monotonic stack and queue", "Binary search on answer"]]
+  ]],
+  ["Phase 15 — Complexity analysis", [
+    ["Time complexity", ["O(1): constant", "O(log n): logarithmic", "O(n): linear", "O(n log n): linearithmic", "O(n²): quadratic", "O(n³): cubic", "O(2ⁿ): exponential", "O(n!): factorial", "Best, average and worst cases"]],
+    ["Space and amortized analysis", ["Auxiliary space vs input space", "Recursion stack space", "In-place algorithms", "Dynamic memory allocation", "Amortized complexity", "Aggregate method", "Accounting method", "Potential method", "Complexity tables for data structures"]]
+  ]]
+];
+
+const root = document.getElementById("checklist");
+const storageKey = "dsaCppChecklist_v1";
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(storageKey) || "{}"); } catch(e) {}
+
+let taskIndex = 0;
+curriculum.forEach(([title, groups]) => {
+  const details = document.createElement("details");
+  details.className = "section";
+  const summary = document.createElement("summary");
+  const name = document.createElement("span");
+  name.className = "section-name";
+  name.textContent = title;
+  const count = document.createElement("span");
+  count.className = "count";
+  count.dataset.section = title;
+  summary.append(name, count);
+  details.append(summary);
+
+  const content = document.createElement("div");
+  content.className = "content";
+  groups.forEach(([groupName, tasks]) => {
+    const group = document.createElement("div");
+    group.className = "group";
+    const heading = document.createElement("h3");
+    heading.textContent = groupName;
+    group.append(heading);
+    tasks.forEach(task => {
+      const id = "task_" + taskIndex++;
+      const label = document.createElement("label");
+      label.className = "task";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = !!saved[id];
+      const text = document.createElement("span");
+      text.textContent = task;
+      if (checkbox.checked) label.classList.add("done");
+      checkbox.addEventListener("change", () => {
+        saved[id] = checkbox.checked;
+        label.classList.toggle("done", checkbox.checked);
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+        updateProgress();
+      });
+      label.append(checkbox, text);
+      group.append(label);
+    });
+    content.append(group);
+  });
+  details.append(content);
+  root.append(details);
+});
+
+function updateProgress() {
+  const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
+  const done = boxes.filter(b => b.checked).length;
+  document.getElementById("progressFill").style.width = (boxes.length ? done / boxes.length * 100 : 0) + "%";
+  document.getElementById("progressText").textContent = `${done} / ${boxes.length} completed`;
+  document.querySelectorAll(".section").forEach(section => {
+    const boxes = [...section.querySelectorAll('input[type="checkbox"]')];
+    const done = boxes.filter(b => b.checked).length;
+    section.querySelector(".count").textContent = `${done}/${boxes.length}`;
+  });
+}
+document.getElementById("expandAll").addEventListener("click", () => document.querySelectorAll(".section").forEach(s => s.open = true));
+document.getElementById("collapseAll").addEventListener("click", () => document.querySelectorAll(".section").forEach(s => s.open = false));
+document.getElementById("reset").addEventListener("click", () => {
+  if (!confirm("Reset all checklist progress? This cannot be undone.")) return;
+  saved = {};
+  localStorage.removeItem(storageKey);
+  document.querySelectorAll('input[type="checkbox"]').forEach(b => b.checked = false);
+  document.querySelectorAll("label.task").forEach(l => l.classList.remove("done"));
+  updateProgress();
+});
+updateProgress();
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(console.error);
+  });
+}
+</script>
+
+</body>
+</html>
